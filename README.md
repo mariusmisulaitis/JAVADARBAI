@@ -1,2 +1,2 @@
 # JAVADARBAI
-Repository dedicated for JAVA exercises
+Repository dedicated for JAVA practical exercises

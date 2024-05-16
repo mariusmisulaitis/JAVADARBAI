@@ -58,11 +58,27 @@ public class CarService {
 
     public void printAllCarsPageable(Pageable pageable) {
         Page<Car> cars = this.carRepository.findAll(pageable);
-        System.out.printf("Page %d out of %d pages%n", pageable.getPageNumber() + 1, cars.getTotalPages());
-        for (Car c : this.carRepository.findAll(pageable)) {
+        for (Car c : cars) {
             System.out.println(c);
         }
+
+        String pageBar = "%d out of %d";
+
+        if (pageable.getPageNumber() < cars.getTotalPages() - 1){
+            pageBar = pageBar + " [->]";
+        }
+
+        if (pageable.getPageNumber() > 0){
+            pageBar = "[<-] " + pageBar;
+        }
+
+
+        System.out.printf(pageBar + "%n", pageable.getPageNumber() + 1, cars.getTotalPages());
+
+
+
     }
+
 
 //    public void printAllCarsByColor(String color) {
 //        System.out.println("Cars by color " + color);
@@ -86,9 +102,9 @@ public class CarService {
 //    }
 
 
-    public void test(){
+    public void test() {
         System.out.println();
-        for (Car c : this.carRepository.getAllByColorOrModelOrMakeOrderByFuelType("BLUE","MODEL-3", "MAKE-2")) {
+        for (Car c : this.carRepository.getAllByColorOrModelOrMakeOrderByFuelType("BLUE", "MODEL-3", "MAKE-2")) {
             System.out.println(c);
         }
         System.out.println();

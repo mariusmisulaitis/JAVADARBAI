@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+
+import java.util.Scanner;
 
 @AllArgsConstructor
 @SpringBootApplication
@@ -23,9 +24,28 @@ public class SpringExampleApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup(){
+
+
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
+        Integer currentPage = 0;
+        this.carService.addTestCars();
+
+
+        while(isRunning) {
+            this.carService.printAllCarsPageable(PageRequest.of(currentPage, 2));
+            String command = scanner.nextLine();
+            switch (command) {
+                case "."-> currentPage++;
+                case ","-> currentPage--;
+            }
+        }
+
+
+
+
         this.carService.addTestCars();
 //        this.carService.printAllCars();
-
         this.carService.printAllCarsPageable(PageRequest.of(0, 2));
 //        this.carService.printAllCarsPageable(PageRequest.of(1, 2));
         this.carService.printAllCarsPageable(PageRequest.of(2, 2));
